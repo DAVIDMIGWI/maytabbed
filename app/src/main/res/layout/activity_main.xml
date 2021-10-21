@@ -24,7 +24,9 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:tabBackground="@drawable/map3"
+            app:tabIndicatorColor="#FFFFFF" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
@@ -40,5 +42,7 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="16dp"
-        app:srcCompat="@android:drawable/ic_dialog_map" />
+        android:src="@drawable/googleg_standard_color_18"
+        app:fabSize="normal"
+        app:useCompatPadding="false" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

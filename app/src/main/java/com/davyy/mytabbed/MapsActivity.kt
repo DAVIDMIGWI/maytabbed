@@ -10,6 +10,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.davyy.mytabbed.databinding.ActivityMapsBinding
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -41,8 +43,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap = googleMap
 
         // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+
+       val parkroad = LatLng(-1.2742540, 36.833770)
+       mMap.addMarker(MarkerOptions().position(parkroad).title("PARKROAD"))
+
+        val boma = LatLng(-1.2742543, 36.8337707)
+        mMap.addMarker(MarkerOptions()
+            .position(boma)
+            .title("BOMA YANGU PARKROAD")
+            .snippet("open 8.00AM - 5.00PM")
+            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)))
+
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(boma, 15f))
     }
 }
