@@ -1,6 +1,7 @@
 package com.davyy.mytabbed
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -9,6 +10,7 @@ import androidx.viewpager.widget.ViewPager
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.app.ActivityCompat
 import com.davyy.mytabbed.ui.main.SectionsPagerAdapter
 import com.davyy.mytabbed.databinding.ActivityMainBinding
 
@@ -28,6 +30,15 @@ class MainActivity : AppCompatActivity() {
         val tabs: TabLayout = binding.tabs
         tabs.setupWithViewPager(viewPager)
         val fab: FloatingActionButton = binding.fab
+
+        if(ActivityCompat.checkSelfPermission(
+                this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
+            PackageManager.PERMISSION_GRANTED)
+
+        {
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),1)
+        }//end if
+
 
         fab.setOnClickListener { view ->
             val i = Intent(applicationContext,MapsActivity::class.java)

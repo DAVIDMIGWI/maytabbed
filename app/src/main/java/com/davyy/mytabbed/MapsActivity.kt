@@ -1,17 +1,22 @@
 package com.davyy.mytabbed
 
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.davyy.mytabbed.databinding.ActivityMapsBinding
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.loopj.android.http.AsyncHttpClient
+import com.loopj.android.http.JsonHttpResponseHandler
+import cz.msebera.android.httpclient.Header
+import org.json.JSONArray
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -42,24 +47,100 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        GPS()
 
         /*
         Add a marker in Sydney and move the camera
-        retrieve all latitudes and logitudes from databases
+        retrieve all latitudes and longitudes from databases
         server will run
         host online
         */
 
-        val client= AsyncHttpClient(true, 80 ,443)
+        val client = AsyncHttpClient(true, 80, 443)
+        client.get("https://modcom.pythonanywhere.com/locations", object : JsonHttpResponseHandler()
+        //client.get("http://127.0.0.1:5000/location", object : JsonHttpResponseHandler()
+
+        {
+            override fun onSuccess(
+                statusCode: Int,
+                headers: Array<out Header>?,
+                response: JSONArray
+            ) {
+                // WE USE FOR LOOP
+                for (i in 0 until response.length()) {
+                    val jsonObject = response.getJSONObject(i)
+                    val lat = jsonObject.optString("lat").toDouble()
+                    val lon = jsonObject.optString("lon").toDouble()
+                    val name = jsonObject.optString("name").toString()
+                    //val phone=jsonObject.optInt("phone").toInt()
+                    //val descc=jsonObject.optString("descc").toBooleanStrict()
+                    //map the car coordinates and loop again
+                    val boma = LatLng(lat, lon)
+                    mMap.addMarker(
+                        MarkerOptions().position(boma)
+                            .title(name)
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.car))
+                    )
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(boma, 15f))
+
+                }
+            }// end on-success
 
 
+            override fun onFailure(
+                statusCode: Int,
+                headers: Array<out Header>?,
+                responseString: String?,
+                throwable: Throwable?
+            ) {
+                super.onFailure(statusCode, headers, responseString, throwable)
+            }// end on-failure
+
+        })
 
 
-        val boma = LatLng(-1.2742543, 36.8337707)
-        mMap.addMarker(MarkerOptions().position(boma).title("BOMA YANGU PARKROAD")
-            .snippet("open 8.00AM - 5.00PM")
-            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)))
+/*
+* we need internet permissions added to manifest
+* for android 10, 11 we need to allow cleartext
+* above are from in manifest file
+* */
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(boma, 15f))
     }
+
+            //.snippet("open 8.00AM - 5.00PM")
+            //.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)))
+  fun GPS(){
+      //check permissions
+      if(ActivityCompat.checkSelfPermission(
+              this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
+                      PackageManager.PERMISSION_GRANTED)
+
+          {
+          ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),1)
+          }//end if
+
+                //get user position
+          val fusedLocationClient=LocationServices.getFusedLocationProviderClient(this)
+                mMap.isMyLocationEnabled=true
+                fusedLocationClient.lastLocation.addOnSuccessListener (this) {
+                    location->
+                    if (location!=null){
+                       val currentLocation=LatLng(location.latitude,location.longitude)
+                    mMap.addMarker(
+                        MarkerOptions()
+                            .position(currentLocation)
+                            .title("IM HERE")
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                    )
+                      mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,15f))
+                }
+                   /* else {
+                        Toast.makeText(applicationContext,"No location,Activate GPS", Toast.LENGTH_LONG
+                    }*/
+                }//end
+
+
+  }// END FUN GPS
+
+
 }
