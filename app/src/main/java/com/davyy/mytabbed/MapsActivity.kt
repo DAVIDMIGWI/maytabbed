@@ -57,9 +57,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         */
 
         val client = AsyncHttpClient(true, 80, 443)
-        client.get("https://modcom.pythonanywhere.com/locations", object : JsonHttpResponseHandler()
-        //client.get("http://127.0.0.1:5000/location", object : JsonHttpResponseHandler()
-
+        client.get("https://migwi81.pythonanywhere.com/api/all", object : JsonHttpResponseHandler()
         {
             override fun onSuccess(
                 statusCode: Int,
@@ -129,7 +127,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     mMap.addMarker(
                         MarkerOptions()
                             .position(currentLocation)
-                            .title("IM HERE")
+                            .title("AM HERE")
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
                     )
                       mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,15f))
