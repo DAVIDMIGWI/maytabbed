@@ -1,15 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/holo_red_dark"
+    android:orientation="vertical"
     tools:context=".ui.main.InfoFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+   <TextView
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_margin="10dp"
+       android:padding="10dp"
+       android:text="MAKE REQUEST"
+       android:textColor="@color/white"
+       android:textSize="20dp"
+       android:textStyle="bold" />
 
-</FrameLayout>
+
+   <EditText
+       android:id="@+id/firstname"
+       android:layout_width="match_parent"
+       android:layout_height="57dp"
+       android:layout_margin="5dp"
+       android:layout_marginLeft="10dp"
+       android:layout_marginTop="20dp"
+       android:layout_marginRight="10dp"
+       android:background="@color/white"
+       android:hint="First Name:" />
+
+   <EditText
+       android:id="@+id/lastname"
+       android:layout_width="match_parent"
+       android:layout_height="55dp"
+       android:layout_margin="5dp"
+       android:layout_marginLeft="10dp"
+       android:layout_marginTop="10dp"
+       android:layout_marginRight="10dp"
+       android:background="@color/white"
+       android:hint="Last Name:" />
+
+   <EditText
+       android:id="@+id/residence"
+       android:layout_width="match_parent"
+       android:layout_height="64dp"
+       android:layout_margin="5dp"
+       android:layout_marginLeft="10dp"
+       android:layout_marginTop="10dp"
+       android:layout_marginRight="10dp"
+       android:background="@color/white"
+       android:hint="Residence:" />
+
+   <EditText
+       android:id="@+id/phone"
+       android:layout_width="match_parent"
+       android:layout_height="59dp"
+       android:layout_margin="5dp"
+       android:layout_marginLeft="10dp"
+       android:layout_marginTop="10dp"
+       android:layout_marginRight="10dp"
+       android:background="@color/white"
+       android:hint="Phone:" />
+
+   <EditText
+       android:id="@+id/request"
+       android:layout_width="match_parent"
+       android:layout_height="99dp"
+       android:layout_margin="5dp"
+       android:layout_marginLeft="10dp"
+       android:layout_marginTop="10dp"
+       android:layout_marginRight="10dp"
+       android:background="@color/white"
+       android:hint="Request:" />
+
+
+   <ProgressBar
+       android:id="@+id/progress"
+       style="@android:style/Widget.Holo.ProgressBar.Horizontal"
+       android:layout_width="411dp"
+       android:layout_height="29dp"
+       android:layout_margin="10dp"
+       android:layout_marginLeft="20dp"
+       android:indeterminate="true" />
+
+   <Button
+       android:id="@+id/submit"
+       android:layout_width="wrap_content"
+       android:layout_height="71dp"
+       android:layout_marginLeft="7dp"
+       android:text="SEND REQUEST" />
+
+
+
+</LinearLayout>

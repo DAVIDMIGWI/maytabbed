@@ -1,15 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_dark"
+    android:background="@color/purple_700"
+    android:orientation="vertical"
     tools:context=".ui.main.MenuFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:background="@android:color/holo_red_dark"
+        android:textStyle="italic"
+        android:text="    RECEIVED REQUESTS "/>
 
-</FrameLayout>
+    <ProgressBar
+        android:id="@+id/progress"
+        style="@android:style/Widget.Holo.ProgressBar.Horizontal"
+        android:layout_width="411dp"
+        android:layout_height="29dp"
+        android:layout_margin="10dp"
+        android:layout_marginLeft="20dp"
+        android:indeterminate="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        android:typeface="sans"
+        android:id="@+id/data"
+        android:layout_margin="10dp"
+        android:text=""/>
+
+
+
+
+</LinearLayout>

@@ -5,25 +5,84 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ProgressBar
+import android.widget.Toast
 import com.davyy.mytabbed.R
+import com.loopj.android.http.AsyncHttpClient
+import com.loopj.android.http.JsonHttpResponseHandler
+import cz.msebera.android.httpclient.Header
+import cz.msebera.android.httpclient.entity.StringEntity
+import org.json.JSONArray
+import org.json.JSONObject
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
 
 class InfoFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    /* TODO: Rename and change types of parameters */
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val root=inflater.inflate(R.layout.fragment_info, container, false)
+        val firstname=root.findViewById(R.id.firstname) as EditText
+        val lastname=root.findViewById(R.id.lastname) as EditText
+        val residence=root.findViewById(R.id.residence) as EditText
+        val phone=root.findViewById(R.id.phone) as EditText
+        val request=root.findViewById(R.id.request) as EditText
+        val submit=root.findViewById(R.id.submit) as Button
+        val progress = root.findViewById(R.id.progress) as ProgressBar
+        progress.visibility=View.GONE //make progress go button is pressed
+
+        submit.setOnClickListener {
+            progress.visibility=View.VISIBLE
+
+            val client=AsyncHttpClient(true,80,443)
+            val jsonParams=JSONObject()
+            jsonParams.put("firstname", firstname.text.toString())
+            jsonParams.put("lastname", lastname.text.toString())
+            jsonParams.put("residence", residence.text.toString())
+            jsonParams.put("phone", phone.text.toString())
+            jsonParams.put("request", request.text.toString())
+            //post to your API
+            //convert above to back to string
+            val data=StringEntity(jsonParams.toString())
+            client.post(activity,"https://migwi81.pythonanywhere.com/post",data,
+                "application/json",
+                object : JsonHttpResponseHandler()
+                {
+                    override fun onSuccess(
+                        statusCode: Int,
+                        headers: Array<out Header>?,
+                        response: JSONObject?) {
+                        if (statusCode==200){
+                            Toast.makeText(activity, ""+response, Toast.LENGTH_LONG).show()
+                            progress.visibility=View.GONE
+                        }
+                        else{
+                            Toast.makeText(activity, "Something went wrong", Toast.LENGTH_LONG).show()
+                            progress.visibility=View.GONE
+                        }
+                    }//end success
+
+                    override fun onFailure(
+                        statusCode: Int,
+                        headers: Array<out Header>?,
+                        responseString: String?,
+                        throwable: Throwable?
+                    ) {
+                        Toast.makeText(activity, "Something went wrong", Toast.LENGTH_LONG).show()
+                        progress.visibility=View.GONE
+                    }// end toast
+
+                })// end of failure
+        }//end listener
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_info, container, false)
+        return root
     }
-
-
 }
